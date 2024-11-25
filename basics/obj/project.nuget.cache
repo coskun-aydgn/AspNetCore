@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "6Y1LXwLIrbk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cosku\\Desktop\\Oslomet Emner\\Udemy\\NetCore\\basics\\basics.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cosku\\.nuget\\packages\\bootstrap\\5.3.3\\bootstrap.5.3.3.nupkg.sha512",
+    "C:\\Users\\cosku\\.nuget\\packages\\jquery\\3.7.1\\jquery.3.7.1.nupkg.sha512"
+  ],
+  "logs": []
+}

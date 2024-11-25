@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bazen özel olarak çağırmak istediğin kısımları çağırmak için gerekli kod --> @RenderSection("Styles", false)
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <partial name="_Navbar">
+    </header>
+    <div class="container mt-3">
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+
+</body>
+
+</html>

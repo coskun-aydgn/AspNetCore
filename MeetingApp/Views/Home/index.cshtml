@@ -1,0 +1,20 @@
+@model MeetingInfo
+@{
+    ViewBag.Title = "Toplanti Basvuru";
+    Layout = "_Layout2";
+    <!--_Layout yerine "null" yazilabilir.# boylece btn-outline-primary sayfada _Layout kullanilmaz -->
+}
+<main class="text-center">
+<h1 class="h4">@ViewBag.selamlama</h1>
+<p>Toplanti katilim durumunuzu bildirin.</p>
+<div class="card my-2">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">@Model.Location</li>
+        <li class="list-group-item">@Model.Date.ToString("dd/MM/yyyy HH:mm") tarihinde gerceklesecek.</li>
+        <li class="list-group-item">@Model.NumberOfPeople Katilimci</li>
+
+    </ul>
+</div>
+
+<a class="btn btn-sm btn-outline-primary" asp-controller="Meeting" asp-action="Apply">Basvuru yap</a>
+</main>

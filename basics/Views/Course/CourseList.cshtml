@@ -1,0 +1,8 @@
+@model List<Course>;
+
+<h1> Course List Page</h1>
+@foreach (var kurs in Model)
+{  @if(kurs.isActive){
+   <partial name="_Course" model="kurs"/>
+}
+}
