@@ -1,0 +1,51 @@
+@model Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<form asp-controller="Home" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input type="hidden" asp-for="ProductId">
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="ImageFile" class="form-label">Upload Image</label>
+        <input type="file" name="imageFile" id="ImageFile" class="form-control">
+    </div>
+
+    <!-- Mevcut resmi göstermek için -->
+    <div class="mb-3">
+        <img src="~/img/@Model.ImageUrl" alt="Product Image" style="width: 100px;">
+        <!-- Mevcut resmin URL'sini gizli bir alan ile gönderiyoruz -->
+        <input type="hidden" name="ExistingImageUrl" value="@Model.ImageUrl">
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label"></label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+            <option value="">Select a Category</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="IsActive" class="form-check-input">
+        <label asp-for="IsActive" class="form-check-label"></label>
+        <span asp-validation-for="IsActive" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
