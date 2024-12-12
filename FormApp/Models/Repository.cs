@@ -44,6 +44,22 @@ namespace FormApp.Models
                 entity.IsActive = updatedProduct.IsActive;
             }
         }
+        public static void EditIsActive(Product updatedProduct)
+        {
+            var entity = _products.FirstOrDefault(p => p.ProductId == updatedProduct.ProductId);
+            if (entity != null)
+            {
+                entity.IsActive = updatedProduct.IsActive;
+            }
+        }
+        public static void DeleteProduct(Product entity)
+        {
+            var deleteEntity = _products.FirstOrDefault(p => p.ProductId == entity.ProductId);
+            if (deleteEntity != null)
+            {
+                _products.Remove(deleteEntity);
+            }
+        }
 
     }
 }

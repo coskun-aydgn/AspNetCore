@@ -47,15 +47,14 @@ public class HomeController : Controller
     public async Task<IActionResult> Create(Product product, IFormFile imageUrl) //gelecek inputlari tektek de yazabiliriz "string name, ..." gibi
     //ayrica ([Bind("name","Price")]Product product) seklinde yazarak istedigimiz inputlari kullanabiliriz
     {
-        var allowedExtension = new[] { ".jpg", ".jpeg", ".png", ".webp" };
-        var extension = Path.GetExtension(imageUrl.FileName);
-        //yuklenen resim isminin sonundaki uzantiyi alir ornegin abc.jpeg ise ".jpeg" i alir
-        var randomFileName = string.Format($"{Guid.NewGuid().ToString()}{extension}");
-        //bu da resim icin random bir isim olsuturur ve extension ile birlersirir
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", randomFileName);
-        //yuklenen resmin upload yapilacagi yerin gosterilmesini sagliyor path
+        var extension = "";
+
+
         if (imageUrl != null)
         {
+            var allowedExtension = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            extension = Path.GetExtension(imageUrl.FileName);
+            //yuklenen resim isminin sonundaki uzantiyi alir ornegin abc.jpeg ise ".jpeg" i alir
             if (!allowedExtension.Contains(extension))
             {
                 ModelState.AddModelError("", "Gecerli bir resim seciniz");
@@ -66,17 +65,22 @@ public class HomeController : Controller
         {
             if (imageUrl != null)
             {
+                var randomFileName = string.Format($"{Guid.NewGuid().ToString()}{extension}");
+                //bu da resim icin random bir isim olsuturur ve extension ile birlersirir
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", randomFileName);
+                //yuklenen resmin upload yapilacagi yerin gosterilmesini sagliyor path
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await imageUrl.CopyToAsync(stream);
                     //burasi resmi istedigimiz klasore kaydediyor
                 }
-            }
-            product.ImageUrl = randomFileName; //
-            product.ProductId = Repository.Products.Count + 1;
-            Repository.CreateProduct(product);
+                product.ImageUrl = randomFileName; //
+                product.ProductId = Repository.Products.Count + 1;
+                Repository.CreateProduct(product);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
         }
         ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
 
@@ -137,6 +141,43 @@ public class HomeController : Controller
         return View(model);
     }
 
-
+    public IActionResult Delete(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+        var product = Repository.Products.FirstOrDefault(p => p.ProductId == id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        /* Repository.DeleteProduct(product);
+        return RedirectToAction("Index"); */
+        return View("DeleteConfirm", product);
+    }
+    [HttpPost]
+    public IActionResult Delete(int id, int ProductId)
+    {
+        if (id != ProductId)
+        {
+            return NotFound();
+        }
+        var product = Repository.Products.FirstOrDefault(p => p.ProductId == ProductId);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        Repository.DeleteProduct(product);
+        return RedirectToAction("Index");
+    }
+    public IActionResult EditProducts(List<Product> Products)
+    {
+        foreach (var product in Products)
+        {
+            Repository.EditIsActive(product);
+        }
+        return RedirectToAction("Index");
+    }
 
 }
